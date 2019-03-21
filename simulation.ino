@@ -1,6 +1,6 @@
 
 typedef struct {
-  float mode;
+  int mode;
   float gps_isValid;
   float gps_lat;
   float gps_lng;
@@ -23,7 +23,7 @@ package *ptrPackage = &p1;
 
 void setup() {  
   Serial.begin(19200);
-  (*ptrPackage).mode = 1.35;
+  (*ptrPackage).mode = 1;
 }
 
 void loop() {  
@@ -43,6 +43,7 @@ void loop() {
   set_bar_speed(&p1);
   set_is_open(&p1);
   set_checksum(&p1);
+  Serial.println("#Generating data...");
   Serial.println(get_mode(&p1),DEC);
   Serial.println(get_gps_isValid(&p1),DEC);
   Serial.println(get_gps_lat(&p1),DEC);
@@ -63,16 +64,16 @@ void loop() {
 }
 
 void set_mode(package *){
-  (*ptrPackage).mode = (*ptrPackage).mode * -0.3;
+  (*ptrPackage).mode = (*ptrPackage).mode + 1;
 }
 void set_gps_isValid(package *){
-  (*ptrPackage).gps_isValid = 0;
+  (*ptrPackage).gps_isValid = 1;
 }
 void set_gps_lat(package *){
-  (*ptrPackage).gps_lat = 0;
+  (*ptrPackage).gps_lat = 22 + (rand() %20) * 0.05;
 }
 void set_gps_lng(package *){
-  (*ptrPackage).gps_lng = 0;
+  (*ptrPackage).gps_lng = 47 + (rand() %20) * 0.05;
 }
 void set_gps_hdop_value(package *){
   (*ptrPackage).gps_hdop_value = 0;
@@ -81,7 +82,7 @@ void set_gps_satellites_value(package *){
   (*ptrPackage).gps_satellites_value = 0;
 }
 void set_gps_altitude_meters(package *){
-  (*ptrPackage).gps_altitude_meters = 0;
+  (*ptrPackage).gps_altitude_meters = 0.9*(*ptrPackage).bpm_altitude;
 }
 void set_gps_course_deg(package *){
   (*ptrPackage).gps_course_deg = 0;
@@ -90,13 +91,13 @@ void set_gps_speed_kmph(package *){
   (*ptrPackage).gps_speed_kmph = 0;
 }
 void set_bpm_temperature(package *){
-  (*ptrPackage).bpm_temperature = 0;
+  (*ptrPackage).bpm_temperature = (rand() % 5) - 0.01*(*ptrPackage).mode - 30;
 }
 void set_bpm_altitude(package *){
-  (*ptrPackage).bpm_altitude = 0;
+  (*ptrPackage).bpm_altitude = 50 + (rand() % 4) - 0.0066*(*ptrPackage).mode;
 }
 void set_bpm_pressure(package *){
-  (*ptrPackage).bpm_pressure = 0;
+  (*ptrPackage).bpm_pressure = 5000 + 34*(*ptrPackage).mode + (rand() % 150);
 }
 void set_status_sd(package *){
   (*ptrPackage).status_sd = 0;
@@ -111,7 +112,7 @@ void set_checksum(package *){
   (*ptrPackage).checksum = 0;
 }
 
-float get_mode(package *){
+int get_mode(package *){
   return (*ptrPackage).mode;
 }
 float get_gps_isValid(package *){
