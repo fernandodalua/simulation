@@ -1,6 +1,6 @@
 
 typedef struct {
-  int mode;
+  float mode;
   float gps_isValid;
   float gps_lat;
   float gps_lng;
@@ -23,7 +23,7 @@ package *ptrPackage = &p1;
 
 void setup() {  
   Serial.begin(19200);
-  (*ptrPackage).mode = 1;
+  //(*ptrPackage).mode = 1;
 }
 
 void loop() {  
@@ -44,27 +44,27 @@ void loop() {
   set_is_open(&p1);
   set_checksum(&p1);
   Serial.println("#Generating data...");
-  Serial.println(get_mode(&p1),DEC);
-  Serial.println(get_gps_isValid(&p1),DEC);
-  Serial.println(get_gps_lat(&p1),DEC);
-  Serial.println(get_gps_lng(&p1),DEC);
-  Serial.println(get_gps_hdop_value(&p1),DEC);
-  Serial.println(get_gps_satellites_value(&p1),DEC);
-  Serial.println(get_gps_altitude_meters(&p1),DEC);
-  Serial.println(get_gps_course_deg(&p1),DEC);
-  Serial.println(get_gps_speed_kmph(&p1),DEC);
-  Serial.println(get_bpm_temperature(&p1),DEC);
-  Serial.println(get_bpm_altitude(&p1),DEC);
-  Serial.println(get_bpm_pressure(&p1),DEC);
-  Serial.println(get_status_sd(&p1),DEC);
-  Serial.println(get_bar_speed(&p1),DEC);
-  Serial.println(get_is_open(&p1),DEC);
-  Serial.println(get_checksum(&p1),DEC);
-  delay(1000);
+  Serial.println(get_mode(&p1)  );
+  Serial.println(get_gps_isValid(&p1),3);
+  Serial.println(get_gps_lat(&p1),3);
+  Serial.println(get_gps_lng(&p1),3);
+  Serial.println(get_gps_hdop_value(&p1),3);
+  Serial.println(get_gps_satellites_value(&p1),3);
+  Serial.println(get_gps_altitude_meters(&p1),3);
+  Serial.println(get_gps_course_deg(&p1),3);
+  Serial.println(get_gps_speed_kmph(&p1),3);
+  Serial.println(get_bpm_temperature(&p1),3);
+  Serial.println(get_bpm_altitude(&p1),3);
+  Serial.println(get_bpm_pressure(&p1),3);
+  Serial.println(get_status_sd(&p1),3);
+  Serial.println(get_bar_speed(&p1),3);
+  Serial.println(get_is_open(&p1),3);
+  Serial.println(get_checksum(&p1),3);
+  delay(2000);
 }
 
 void set_mode(package *){
-  (*ptrPackage).mode = (*ptrPackage).mode + 1;
+  (*ptrPackage).mode += 1;
 }
 void set_gps_isValid(package *){
   (*ptrPackage).gps_isValid = 1;
@@ -112,7 +112,7 @@ void set_checksum(package *){
   (*ptrPackage).checksum = 0;
 }
 
-int get_mode(package *){
+float get_mode(package *){
   return (*ptrPackage).mode;
 }
 float get_gps_isValid(package *){
